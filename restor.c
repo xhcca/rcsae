@@ -19,7 +19,7 @@ void free_restor(restor *self) {
 }
 
 void free_restor_only(restor *self) {
-    free_restor(self);
+    free(self);
 }
 
 size_t restor_size(restor *self) {

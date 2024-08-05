@@ -31,7 +31,7 @@ int main() {
     assert(restor_read(stor, 4) == 4);
 
     fclose(fp);
-    free_restor(stor);
+    free_restor_only(stor);
     
     return 0;
 }
