@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if ((mkdir(RCSAE_DEFAULT_PORT_PATH, 0777) == -1) && (errno != EEXIST)) {
+    if ((mkdir(RCSAE_DEFAULT_PORT_PATH, 0666) == -1) && (errno != EEXIST)) {
         fprintf(stderr, "\033[1;31merror:\033[0;0m could not make the"
             " directory \033[4m" RCSAE_DEFAULT_PORT_PATH "\033[0m, error no.:"
             " \033[4m%d\033[0m\n", errno);
