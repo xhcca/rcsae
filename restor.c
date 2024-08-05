@@ -14,7 +14,12 @@ restor *new_restor(FILE *file) {
 }
 
 void free_restor(restor *self) {
+    fclose(self->file);
     free(self);
+}
+
+void free_restor_only(restor *self) {
+    free_restor(self);
 }
 
 size_t restor_size(restor *self) {

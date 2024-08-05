@@ -18,9 +18,6 @@ typedef struct {
     restor *psa;
     restor *psb;
     restor *psc;
-    restor *pioa;
-    restor *piob;
-    restor *pioc;
 
     uint64_t pc;
 
@@ -98,5 +95,7 @@ void free_reproc(reproc *);
 
 void reproc_start(reproc *);
 void reproc_stop(reproc *);
+
+void reproc_read_ports(reproc *);
 
 #endif

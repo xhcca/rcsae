@@ -10,6 +10,7 @@ typedef struct {
 
 restor *new_restor(FILE *);
 void free_restor(restor *);
+void free_restor_only(restor *);
 
 size_t restor_size(restor *);
 uint8_t restor_read(restor *, uintptr_t);
