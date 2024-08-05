@@ -10,8 +10,9 @@ reproc *new_reproc(remem **memory) {
     reproc *self = (reproc *) calloc(1, sizeof(reproc));
 
     self->m = memory;
-
     self->pc = 0;
+
+    reproc_read_ports(self);
 
     return self;
 }
