@@ -13,7 +13,7 @@ void free_restor(restor *);
 void free_restor_only(restor *);
 
 size_t restor_size(restor *);
-uint8_t restor_read(restor *, uintptr_t);
-void restor_write(restor *, uintptr_t, uint8_t);
+uint8_t restor_read(restor *, size_t);
+void restor_write(restor *, size_t, uint8_t);
 
 #endif

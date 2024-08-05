@@ -34,7 +34,7 @@ size_t restor_size(restor *self) {
     return fs;
 }
 
-uint8_t restor_read(restor *self, uintptr_t addr) {
+uint8_t restor_read(restor *self, size_t addr) {
     if (addr >= restor_size(self)) {
         return restor_read(self, addr - restor_size(self));
     } else {
@@ -48,7 +48,7 @@ uint8_t restor_read(restor *self, uintptr_t addr) {
     }
 }
 
-void restor_write(restor *self, uintptr_t addr, uint8_t byte) {
+void restor_write(restor *self, size_t addr, uint8_t byte) {
     if (addr >= restor_size(self)) {
         restor_write(self, addr - restor_size(self), byte);
     } else {
