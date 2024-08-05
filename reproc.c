@@ -25,7 +25,7 @@ void reproc_start(reproc *self) {
 
     while (self->b0 == REPROC_ON) {
         
-    } 
+    }
 }
 
 void reproc_stop(reproc *self) {
