@@ -14,7 +14,7 @@ typedef struct {
 remem *new_remem(size_t);
 void free_remem(remem *);
 
-uint8_t remem_read(remem *, uintptr_t);
-void remem_write(remem *, uintptr_t, uint8_t);
+uint8_t remem_read(remem *, size_t);
+void remem_write(remem *, size_t, uint8_t);
 
 #endif

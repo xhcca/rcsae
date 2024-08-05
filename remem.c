@@ -22,7 +22,7 @@ void free_remem(remem *self) {
     free(self);
 }
 
-uint8_t remem_read(remem *self, uintptr_t addr) {
+uint8_t remem_read(remem *self, size_t addr) {
     if (addr >= self->size) {
         return remem_read(self, addr - self->size);
     } else {
@@ -30,7 +30,7 @@ uint8_t remem_read(remem *self, uintptr_t addr) {
     }
 }
 
-void remem_write(remem *self, uintptr_t addr, uint8_t byte) {
+void remem_write(remem *self, size_t addr, uint8_t byte) {
     if (addr >= self->size) {
         remem_write(self, addr - self->size, byte);
     } else {
