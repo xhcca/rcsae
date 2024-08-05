@@ -1,0 +1,10 @@
+/.clangd
+
+/*.o
+/librcsae.a
+/rcsae
+
+/tests/*
+!/tests/*.c
+
+/local/
