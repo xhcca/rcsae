@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    char *lp = NULL;
     char *dp = NULL;
     size_t ms = si.freeram - 1024;
 
@@ -59,11 +60,22 @@ int main(int argc, char **argv) {
         } else if ((strcmp(argv[i], "-h") == 0)) {
             puts("    \033[1mh\033[0m\t\tprints this help message");
             puts("    \033[1mm\033[0m \033[4msize\033[0m\tsets the memory"
-                " size");
-            puts("    \033[1md\033[0m \033[4mprefix\033[0m\tdumps the memory and"
-                " the processor");
+                " size to \033[4msize\033[0m");
+            puts("    \033[1ml\033[0m \033[4mfile\033[0m\tloads the memory and"
+                " the processor from \033[4mfile\033[0m");
+            puts("    \033[1md\033[0m \033[4mfile\033[0m\tdumps the memory and"
+                " the processor to \033[4mfile\033[0m");
 
             return 0;
+        } else if (strcmp(argv[i], "-l") == 0) {
+            if (++i >= argc) {
+                fprintf(stderr, "\033[1;31merror:\033[0;0m the option \033[1ml"
+                    "\033[0m requires an argument\n");
+                
+                return 2;
+            } else {
+                lp = argv[i];
+            }
         } else if (strcmp(argv[i], "-d") == 0) {
             if (++i >= argc) {
                 fprintf(stderr, "\033[1;31merror:\033[0;0m the option \033[1md"
@@ -96,11 +108,43 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    if (lp != NULL) {
+        FILE *lf = fopen(lp, "rb");
+
+        if (lf == NULL) {
+            fprintf(stderr, "\033[1;31merror:\033[0;0m could not open the file"
+                " \033[4m%s\033[0m", dp);
+
+            return 1;
+        }
+
+        fread(&ms, sizeof(uint8_t), 4, lf);
+        fclose(lf);
+    }
+
     remem *m = new_remem(ms);
 
     printf("\033[1minfo:\033[0m allocated %zu bytes of memory\n", ms);
 
     reproc *p = new_reproc(&m);
+
+    if (lp != NULL) {
+        FILE *lf = fopen(lp, "rb");
+
+        if (lf == NULL) {
+            fprintf(stderr, "\033[1;31merror:\033[0;0m could not open the file"
+                " \033[4m%s\033[0m", dp);
+
+            return 1;
+        }
+
+        fseek(lf, 4, SEEK_SET);
+        fread(m->data, sizeof(uint8_t), remem_size(m), lf);
+        fread(p + (sizeof(remem) + (sizeof(restor) * 3)), sizeof(reproc), 0,
+            lf);
+
+        fclose(lf);
+    }
 
     reproc_start(p);
 
