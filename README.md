@@ -58,4 +58,5 @@ processor clock.
 | **64 bits**   | PC, LR0, LR1, LR2, LR3, LR4, LR5, LR6, LR7, LR8, LR9, LR10, LR11, LR12, LR13, LR14, LR15 |
 
 The register *B0* is reserved for the processor state.  *PC* is the processor
-clock.
+clock.  The RCSA do not have stack memory managment, it complete depends on the
+registers.
