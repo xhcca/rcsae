@@ -16,10 +16,10 @@ typedef enum {
 } reproc_state_t;
 
 typedef enum {
-    REPROC_CODE_HALT = 0x00,
+    REPROC_CODE_PASS = 0x00,
     REPROC_CODE_DEBUG = 0x01,   // This is obviously non-existent in the actual
                                 // architecture.
-    REPROC_CODE_PASS = 0x02,
+    REPROC_CODE_HALT = 0x02,
 } reproc_code_t;
 
 typedef struct {

@@ -37,10 +37,6 @@ void reproc_start(reproc *self) {
     }
 
     while (self->b0 != REPROC_STATE_OFF) {
-        if (self->b0 == REPROC_STATE_ILL) {
-            break;
-        }
-
         switch (remem_read(*self->m, self->pc++)) {
             case REPROC_CODE_HALT:
                 self->b0 = REPROC_STATE_OFF;
