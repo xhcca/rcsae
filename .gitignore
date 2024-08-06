@@ -1,12 +1,13 @@
 /.clangd
 
-/*.o
+/remem.o
+/reproc.o
+/restor.o
+
 /librcsae.a
 /rcsae
 
-/tests/*
-!/tests/*.c
-
-/sys/*.bin
+/tests/test-remem
+/tests/test-restor
 
 /local/

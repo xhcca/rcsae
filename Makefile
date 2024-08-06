@@ -1,15 +1,16 @@
 PREFIX = local
 
 CC = cc
-CFLAGS = -std=c99 -Wall -Wno-error -pedantic -I. -L.
-
-MKBIN = ./tools/mkbin
+CFLAGS = -std=c99 -Wall -Wno-error -pedantic
 
 ifeq ($(DEBUG), yes)
 	CFLAGS += -O0 -g
 else
 	CFLAGS += -O3
 endif
+
+OBJECTS = remem.o reproc.o restor.o
+TEST_BINARIES = tests/test-remem tests/test-restor
 
 all: build
 
@@ -19,11 +20,9 @@ test: tests/test-remem tests/test-restor
 	./tests/test-remem
 	./tests/test-restor
 
-pre-install:
+install:
 	mkdir -p $(PREFIX)/lib
 	mkdir -p $(PREFIX)/bin
-
-install: pre-install
 	cp librcsae.a $(PREFIX)/lib
 	cp rcsae $(PREFIX)/bin
 
@@ -32,9 +31,12 @@ uninstall:
 	rm -f $(PREFIX)/bin/rcsae
 
 clean:
-	rm *.o
+	rm $(OBJECTS)
+	rm librcsae.a
+	rm rcsae
+	rm $(TEST_BINARIES)
 
-.PHONY : all build pre-install install uninstall clean
+.PHONY : all build install uninstall clean
 
 librcsae.a: remem.o reproc.o restor.o
 	$(AR) rcs $@ $^
@@ -48,14 +50,11 @@ reproc.o: reproc.c reproc.h
 restor.o: restor.c restor.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-rcsae: rcsae.o
-	$(CC) $(CFLAGS) $^ -o $@ -lrcsae
-
-rcsae.o: rcsae.c
-	$(CC) $(CFLAGS) -c $< -o $@
+rcsae: rcsae.c
+	$(CC) $(CFLAGS) $^ -o $@ -L. -lrcsae
 
 tests/test-remem: tests/test-remem.c
-	$(CC) $(CFLAGS) $< -o $@ -lrcsae
+	$(CC) $(CFLAGS) $< -o $@ -I. -L. -lrcsae
 
 tests/test-restor: tests/test-restor.c
-	$(CC) $(CFLAGS) $< -o $@ -lrcsae
+	$(CC) $(CFLAGS) $< -o $@ -I. -L. -lrcsae
