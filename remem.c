@@ -22,6 +22,10 @@ void free_remem(remem *self) {
     free(self);
 }
 
+size_t remem_size(remem *self) {
+    return self->size;
+}
+
 uint8_t remem_read(remem *self, size_t addr) {
     if (addr >= self->size) {
         return remem_read(self, addr - self->size);

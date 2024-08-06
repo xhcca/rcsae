@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+from pathlib import Path
+
+import sys
+
+if __name__ == "__main__":
+    output_path = Path(sys.argv[1])
+    input_paths: list[Path] = []
+
+    for index, argument in enumerate(sys.argv):
+        if index >= 2:
+            input_paths.append(Path(argument))
+
+    output = bytearray()
+
+    for input_path in input_paths:
+        with input_path.open("r") as input_stream:
+            input_list = input_stream.read().split()
+
+            for byte in input_list:
+                output.extend(bytes.fromhex(byte))
+
+    with output_path.open("wb+") as output_stream:
+        output_stream.write(output)

@@ -1,6 +1,8 @@
+#include "remem.h"
 #include "reproc.h"
 #include "restor.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include <assert.h>
@@ -26,17 +28,50 @@ void free_reproc(reproc *self) {
 }
 
 void reproc_start(reproc *self) {
-    self->b0 = REPROC_ON;
+    self->b0 = REPROC_STATE_ON;
 
-    while (self->b0 == REPROC_ON) {
-        
+    if ((self->psa != NULL) && (restor_size(self->psa) == RCSAE_FP_SIZE)) {
+        for (size_t i = 0; i < RCSAE_FP_SIZE; ++i) {
+            remem_write(*self->m, i, restor_read(self->psa, i));
+        }
+    }
+
+    while (self->b0 != REPROC_STATE_OFF) {
+        if (self->b0 == REPROC_STATE_ILL) {
+            break;
+        }
+
+        switch (remem_read(*self->m, self->pc++)) {
+            case REPROC_CODE_HALT:
+                self->b0 = REPROC_STATE_OFF;
+
+                break;
+            
+            case REPROC_CODE_DEBUG:
+                puts("\033[1minfo:\033[0m executed the operation code \033[4m"
+                    "DEBUG\033[0m");
+
+                break;
+            
+            case REPROC_CODE_PASS:
+                break;
+            
+            default:
+                self->b0 = REPROC_STATE_ILL;
+
+                break;
+        }
+
+        if (self->pc + 1 >= remem_size(*self->m)) {
+            self->pc = 0;
+        }
     }
 }
 
 void reproc_stop(reproc *self) {
-    assert(self->b0 == REPROC_ON);
+    assert(self->b0 == REPROC_STATE_ON);
 
-    self->b0 = REPROC_OFF;
+    self->b0 = REPROC_STATE_OFF;
 }
 
 void reproc_read_ports(reproc *self) {

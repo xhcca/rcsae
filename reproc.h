@@ -1,6 +1,7 @@
 #ifndef REPROC_H
 #define REPROC_H
 
+#define RCSAE_FP_SIZE 64lu
 #define RCSAE_DEFAULT_PORT_PATH "/tmp/rcsae-ports"
 
 #include "remem.h"
@@ -9,8 +10,16 @@
 #include <stdint.h>
 
 enum {
-    REPROC_ON = 0x00,
-    REPROC_OFF = 0x01,
+    REPROC_STATE_ON = 0x00,
+    REPROC_STATE_OFF = 0x01,
+    REPROC_STATE_ILL = 0x02,    // This is not an abbreviation.
+};
+
+enum {
+    REPROC_CODE_HALT = 0x00,
+    REPROC_CODE_DEBUG = 0x01,   // This is obviously non-existent in the actual
+                                // architecture.
+    REPROC_CODE_PASS = 0x02,
 };
 
 typedef struct {

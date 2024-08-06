@@ -7,4 +7,6 @@
 /tests/*
 !/tests/*.c
 
+/sys/*.bin
+
 /local/
