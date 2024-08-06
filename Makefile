@@ -24,15 +24,17 @@ test: tests/test-remem tests/test-restor
 pre-install:
 	mkdir -p $(PREFIX)/lib
 	mkdir -p $(PREFIX)/bin
-	mkdir -p $(PREFIX)/lib/rcsae/system-files
+	mkdir -p $(PREFIX)/lib/rcsae-system-files
 
 install: pre-install
 	cp librcsae.a $(PREFIX)/lib
 	cp rcsae $(PREFIX)/bin
-	cp sys/*.bin $(PREFIX)/lib/rcsae/system-files
+	cp sys/*.bin $(PREFIX)/lib/rcsae-system-files
 
 uninstall:
-	rm $(PREFIX)/bin/rcsae
+	rm -f $(PREFIX)/lib/librcsae.a
+	rm -f $(PREFIX)/bin/rcsae
+	rm -r -f $(PREFIX)/lib/rcsae-system-files
 
 clean:
 	rm *.o
