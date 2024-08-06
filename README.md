@@ -55,7 +55,7 @@ processor clock.
 | **8 bits**    | B0, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, B13, B14, B15 |
 | **16 bits**   | SR0, SR1, SR2, SR3, SR4, SR5, SR6, SR7, SR8, SR9, SR10, SR11, SR12, SR13, SR14, SR15 |
 | **32 bits**   | R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15 |
-| **64 bits**   | PC, LR0, LR1, LR2, LR3, LR4, LR5, LR6, LR7, LR8, LR9, LR10, LR11, LR12, LR13, SL14, LR15 |
+| **64 bits**   | PC, LR0, LR1, LR2, LR3, LR4, LR5, LR6, LR7, LR8, LR9, LR10, LR11, LR12, LR13, LR14, LR15 |
 
 The register *B0* is reserved for the processor state.  *PC* is the processor
 clock.
