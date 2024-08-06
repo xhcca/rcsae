@@ -10,6 +10,8 @@
 #include <sys/sysinfo.h>
 #include <sys/stat.h>
 
+#include <unistd.h>
+
 int main(int argc, char **argv) {
 
     // In here, the program tries to get system information even though if the
@@ -28,7 +30,7 @@ int main(int argc, char **argv) {
     }
 
     bool vm = false;
-    size_t ms = si.freeram / 16;
+    size_t ms = si.freeram - 1024;
 
     for (int i = 1; i < argc; ++i) {
         if (strcmp(argv[i], "-m") == 0) {
