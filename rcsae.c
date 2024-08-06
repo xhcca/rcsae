@@ -1,5 +1,6 @@
 #include "remem.h"
 #include "reproc.h"
+#include "restor.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,13 +27,14 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    char *dp = NULL;
     size_t ms = si.freeram - 1024;
 
     for (int i = 1; i < argc; ++i) {
         if (strcmp(argv[i], "-m") == 0) {
             if (++i >= argc) {
                 fprintf(stderr, "\033[1;31merror:\033[0;0m the option \033[1mm"
-                    " \033[0m requires an argument\n");
+                    "\033[0m requires an argument\n");
                 
                 return 2;
             } else {
@@ -55,14 +57,22 @@ int main(int argc, char **argv) {
                 }
             }
         } else if ((strcmp(argv[i], "-h") == 0)) {
-            printf("\033[1musage:\033[0m %s ...\n", argv[0]);
-
-            puts("\n\033[1moptions:\033[0m");
+            puts("    \033[1mh\033[0m\t\tprints this help message");
             puts("    \033[1mm\033[0m \033[4msize\033[0m\tsets the memory"
                 " size");
-            puts("    \033[1mh\033[0m\t\tprints this help message");
+            puts("    \033[1md\033[0m \033[4mprefix\033[0m\tdumps the memory and"
+                " the processor");
 
             return 0;
+        } else if (strcmp(argv[i], "-d") == 0) {
+            if (++i >= argc) {
+                fprintf(stderr, "\033[1;31merror:\033[0;0m the option \033[1md"
+                    "\033[0m requires an argument\n");
+                
+                return 2;
+            } else {
+                dp = argv[i];
+            }
         } else {
             fprintf(stderr, "\033[1;31merror:\033[0;0m \033[1m%s\033[0m is an"
                 " unknown option\n", argv[i]);
@@ -93,6 +103,26 @@ int main(int argc, char **argv) {
     reproc *p = new_reproc(&m);
 
     reproc_start(p);
+
+    if (dp != NULL) {
+        FILE *df = fopen(dp, "wb");
+
+        if (df == NULL) {
+            fprintf(stderr, "\033[1;31merror:\033[0;0m could not open the file"
+                " \033[4m%s\033[0m", dp);
+
+            return 1;
+        }
+        
+        fwrite(m, sizeof(remem), 1, df);
+        fseek(df, 4, SEEK_SET);
+        
+        fwrite(m->data, sizeof(uint8_t), remem_size(m), df);
+        fwrite(p + (sizeof(remem) + (sizeof(restor) * 3)), sizeof(reproc), 1,
+            df);
+        
+        fclose(df);
+    }
 
     free_remem(m);
     free_reproc(p);
