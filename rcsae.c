@@ -10,8 +10,6 @@
 #include <sys/sysinfo.h>
 #include <sys/stat.h>
 
-#include <unistd.h>
-
 int main(int argc, char **argv) {
 
     // In here, the program tries to get system information even though if the
