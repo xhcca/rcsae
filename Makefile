@@ -12,7 +12,7 @@ endif
 OBJECTS = remem.o reproc.o restor.o
 TEST_BINARIES = tests/test-remem tests/test-restor
 
-all: build
+all: build test
 
 build: librcsae.a rcsae
 
@@ -31,12 +31,12 @@ uninstall:
 	rm -f $(PREFIX)/bin/rcsae
 
 clean:
-	rm $(OBJECTS)
-	rm librcsae.a
-	rm rcsae
-	rm $(TEST_BINARIES)
+	rm -f $(OBJECTS)
+	rm -f librcsae.a
+	rm -f rcsae
+	rm -f $(TEST_BINARIES)
 
-.PHONY : all build install uninstall clean
+.PHONY : all build test install uninstall clean
 
 librcsae.a: remem.o reproc.o restor.o
 	$(AR) rcs $@ $^
