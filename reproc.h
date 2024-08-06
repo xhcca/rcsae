@@ -9,18 +9,18 @@
 
 #include <stdint.h>
 
-enum {
+typedef enum {
     REPROC_STATE_ON = 0x00,
     REPROC_STATE_OFF = 0x01,
     REPROC_STATE_ILL = 0x02,    // This is not an abbreviation.
-};
+} reproc_state_t;
 
-enum {
+typedef enum {
     REPROC_CODE_HALT = 0x00,
     REPROC_CODE_DEBUG = 0x01,   // This is obviously non-existent in the actual
                                 // architecture.
     REPROC_CODE_PASS = 0x02,
-};
+} reproc_code_t;
 
 typedef struct {
     remem **m;
