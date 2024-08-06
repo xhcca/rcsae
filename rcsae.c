@@ -27,7 +27,6 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    bool vm = false;
     size_t ms = si.freeram - 1024;
 
     for (int i = 1; i < argc; ++i) {
@@ -63,11 +62,8 @@ int main(int argc, char **argv) {
             puts("    \033[1mm\033[0m \033[4msize\033[0m\tsets the memory"
                 " size");
             puts("    \033[1mh\033[0m\t\tprints this help message");
-            puts("    \033[1mv\033[0m\t\tenables the verbose mode");
 
             return 0;
-        } else if (strcmp(argv[i], "-v") == 0) {
-            vm = true;
         } else {
             fprintf(stderr, "\033[1;31merror:\033[0;0m \033[1m%s\033[0m is an"
                 " unknown option\n", argv[i]);
@@ -98,21 +94,6 @@ int main(int argc, char **argv) {
     reproc *p = new_reproc(&m);
 
     reproc_start(p);
-
-    if (vm) {
-        for (size_t i = 0; i < remem_size(m); ++i) {
-            printf("0x%02X", remem_read(m, i));
-
-            if (i + 1 == remem_size(m)) {
-                putc('\n', stdout);
-            } else {
-                putc(' ', stdout);
-            }
-        }
-
-        puts("\033[1minfo:\033[0m dumped the memory");
-        printf("\033[1minfo:\033[0m processor clock was %zu\n", p->pc);
-    }
 
     free_remem(m);
     free_reproc(p);
