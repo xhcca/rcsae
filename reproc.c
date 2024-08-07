@@ -8,13 +8,15 @@
 #include <assert.h>
 #include <unistd.h>
 
+void _reproc_read_ports(reproc *);
+
 reproc *new_reproc(remem **memory) {
     reproc *self = (reproc *) calloc(1, sizeof(reproc));
 
     self->m = memory;
     self->pc = 0;
 
-    reproc_read_ports(self);
+    _reproc_read_ports(self);
 
     return self;
 }
@@ -70,7 +72,7 @@ void reproc_stop(reproc *self) {
     self->b0 = REPROC_STATE_OFF;
 }
 
-void reproc_read_ports(reproc *self) {
+void _reproc_read_ports(reproc *self) {
     if (access(RCSAE_DEFAULT_PORT_PATH "/psa", F_OK) == 0) {
         self->psa = new_restor(fopen(RCSAE_DEFAULT_PORT_PATH "/psa", "rb"));
     } else if (self->psa != NULL) {
