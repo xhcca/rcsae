@@ -53,7 +53,7 @@ void reproc_start(reproc *self) {
                 break;
             
             default:
-                self->b0 = REPROC_STATE_ILL;
+                self->b0 = REPROC_STATE_UCE;
 
                 break;
         }

@@ -12,7 +12,7 @@
 typedef enum {
     REPROC_STATE_ON = 0x00,
     REPROC_STATE_OFF = 0x01,
-    REPROC_STATE_ILL = 0x02,    // This is not an abbreviation.
+    REPROC_STATE_UCE = 0x02,    // Stands for "unknown code error."
 } reproc_state_t;
 
 typedef enum {
