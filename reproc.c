@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 void _reproc_read_ports(reproc *);
+void *_reproc_point_to_register(reproc *, reproc_regid_t);
 
 reproc *new_reproc(remem **memory) {
     reproc *self = (reproc *) calloc(1, sizeof(reproc));
@@ -90,4 +91,9 @@ void _reproc_read_ports(reproc *self) {
     } else if (self->psc != NULL) {
         free_restor(self->psc);
     }
+}
+
+void *_reproc_point_to_register(reproc *proc, reproc_regid_t regid) {
+    return ((void *) proc + (sizeof(remem **) + (sizeof(restor *) * 3)))
+        + regid;
 }
